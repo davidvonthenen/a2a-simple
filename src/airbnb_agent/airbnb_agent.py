@@ -1,4 +1,4 @@
-"""Airbnb agent implementation backed by the OpenAI Python SDK."""
+"""Simple agent that proxies conversation to an OpenAI chat model."""
 
 from __future__ import annotations
 
@@ -20,10 +20,8 @@ class AirbnbAgent:
     """Simple conversational agent that relies on an OpenAI chat model."""
 
     SYSTEM_INSTRUCTION = (
-        "You are a specialized assistant for researching Airbnb accommodations. "
-        "Always be explicit when you do not have live listing data. "
-        "Provide thoughtful suggestions, outline assumptions, and recommend next steps "
-        "the user can take on airbnb.com. Format answers using Markdown."
+        "You are a helpful assistant. Provide clear and concise answers using "
+        "only the information from this conversation."
     )
 
     SUPPORTED_CONTENT_TYPES = ["text", "text/plain"]
@@ -39,6 +37,33 @@ class AirbnbAgent:
             "OPENAI_AIRBNB_MODEL", os.getenv("OPENAI_MODEL", "gpt-5-mini")
         )
         self._session_history: dict[str, list[ChatCompletionMessageParam]] = {}
+        self._function_specs: list[dict[str, Any]] | None = None
+        # Example: enable function calling with two mock functions.
+        # self._function_specs = [
+        #     {
+        #         "name": "mock_property_search",
+        #         "description": "Return pretend rental listings.",
+        #         "parameters": {
+        #             "type": "object",
+        #             "properties": {
+        #                 "city": {"type": "string"},
+        #                 "guests": {"type": "integer", "minimum": 1},
+        #             },
+        #             "required": ["city"],
+        #         },
+        #     },
+        #     {
+        #         "name": "mock_price_estimate",
+        #         "description": "Return a pretend nightly price estimate.",
+        #         "parameters": {
+        #             "type": "object",
+        #             "properties": {
+        #                 "city": {"type": "string"},
+        #                 "season": {"type": "string"},
+        #             },
+        #         },
+        #     },
+        # ]
         logger.info("AirbnbAgent initialized with model %s", self._model)
 
     def _history_for_session(self, session_id: str) -> list[ChatCompletionMessageParam]:
@@ -90,3 +115,19 @@ class AirbnbAgent:
     ) -> AsyncIterable[dict[str, Any]]:
         """Asynchronous generator that yields a single response event."""
         yield await self.ainvoke(query, session_id)
+
+    async def _invoke_tool(self, name: str, arguments: dict[str, Any]) -> str:
+        """Placeholder retained for future tool integrations."""
+
+        # Example: connect the mock functions defined in ``self._function_specs``.
+        # mock_tools = {
+        #     "mock_property_search": lambda **kwargs: "Found 3 lovely rentals.",
+        #     "mock_price_estimate": lambda **kwargs: "$150 per night.",
+        # }
+        # tool = mock_tools.get(name)
+        # if tool is None:
+        #     return f"Tool '{name}' is not supported."
+        # return tool(**arguments)
+
+        logger.debug("Tool calling is disabled. name=%s arguments=%s", name, arguments)
+        return "Tool calling is currently disabled."
