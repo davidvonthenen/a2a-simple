@@ -1,13 +1,31 @@
-# Remote Agent built by ADK
+# Weather remote agent
 
-This example shows how to create an A2A Server that uses an ADK-based Agent.
+The Weather agent is an A2A-compatible HTTP service that fabricates realistic weather forecasts using an OpenAI chat model. It is consumed by the host routing agent included in this repository.
 
-## Running the example
+## Requirements
 
-1. Create a .env file using the `example.env` file as a template.
+- Install the shared project dependencies (`pip install -r requirements.txt` or `uv pip install -r requirements.txt`).
+- Provide an `OPENAI_API_KEY` via environment variable or a `.env` file in the repository root.
+- Optional variables:
+  - `OPENAI_WEATHER_MODEL` – override the OpenAI chat model for this service.
+  - `APP_URL` – advertise an externally reachable URL in the agent card (defaults to the local host/port).
 
-2. Run the example
+Example environment configuration:
 
-   ```bash
-   uv run .
-   ```
+```bash
+OPENAI_API_KEY="sk-your-api-key"
+OPENAI_WEATHER_MODEL="gpt-5-nano"
+APP_URL="http://localhost:10001"
+```
+
+## Running the service
+
+Start the HTTP server on port `10001` (default):
+
+```bash
+uv run python -m src.weather_agent
+# or
+make weather_agent
+```
+
+The service publishes its agent card at `http://localhost:10001/.well-known/a2a.json` and streams task updates back to callers.
