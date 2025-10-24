@@ -1,14 +1,34 @@
-# Remote agent built by LangGraph
+# Airbnb remote agent
 
-## Getting started
+This package exposes the "Airbnb Agent" service used by the demo host application. It responds to A2A messages by generating fictional accommodation suggestions with an OpenAI chat model.
 
-1. Create a `.env` file using the `example.env` file as a template.
+## Requirements
 
-2. Start the server
+- Python dependencies from the repository root (`pip install -r requirements.txt` or `uv pip install -r requirements.txt`).
+- `OPENAI_API_KEY` set in your shell or in a `.env` file (the module loads environment variables automatically).
+- Optional overrides:
+  - `OPENAI_AIRBNB_MODEL` – specific model for this agent. Defaults to `OPENAI_MODEL` or `gpt-5-nano`.
+  - `APP_URL` – public URL to advertise inside the agent card. Defaults to the local host/port.
 
-    ```bash
-    uv run .
-    ```
+Example `.env` values:
+
+```bash
+OPENAI_API_KEY="sk-your-api-key"
+OPENAI_AIRBNB_MODEL="gpt-5-nano"
+APP_URL="http://localhost:10002"
+```
+
+## Running the service
+
+Launch the agent on port `10002` (default):
+
+```bash
+uv run python -m src.airbnb_agent
+# or
+make airbnb_agent
+```
+
+The process starts a Starlette app via Uvicorn and serves the agent card at `http://localhost:10002/.well-known/a2a.json`.
 
 ## Disclaimer
 
