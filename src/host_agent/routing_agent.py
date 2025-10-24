@@ -159,7 +159,7 @@ class RoutingAgent:
         response = await self._client.chat.completions.create(
             model=self._model,
             messages=messages,
-            temperature=0,
+            # temperature=0.2, # BAD
         )
         raw_content = response.choices[0].message.content or "{}"
         try:
@@ -235,7 +235,7 @@ class RoutingAgent:
         response = await self._client.chat.completions.create(
             model=self._model,
             messages=messages,
-            temperature=0.2,
+            # temperature=0.2, # BAD
         )
         content = (
             response.choices[0].message.content
