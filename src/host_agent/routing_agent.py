@@ -58,7 +58,7 @@ class RoutingAgent:
         self.cards: dict[str, AgentCard] = {}
         self._client = client or AsyncOpenAI()
         self._model = model or os.getenv(
-            "OPENAI_ROUTER_MODEL", os.getenv("OPENAI_MODEL", "gpt-5-mini")
+            "OPENAI_ROUTER_MODEL", os.getenv("OPENAI_MODEL", "gpt-5-nano")
         )
         self._session_history: dict[str, list[ChatCompletionMessageParam]] = {}
         self._session_context_ids: dict[tuple[str, str], str] = {}

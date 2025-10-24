@@ -36,7 +36,7 @@ class WeatherAgent:
     ) -> None:
         self._client = client or AsyncOpenAI()
         self._model = model or os.getenv(
-            "OPENAI_WEATHER_MODEL", os.getenv("OPENAI_MODEL", "gpt-5-mini")
+            "OPENAI_WEATHER_MODEL", os.getenv("OPENAI_MODEL", "gpt-5-nano")
         )
         self._session_history: dict[str, list[ChatCompletionMessageParam]] = {}
         # Exmples of tool functions that could be integrated.
