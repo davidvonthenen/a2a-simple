@@ -11,7 +11,7 @@ from typing import Any, Callable, Coroutine
 from openai import AsyncOpenAI
 from openai.types.chat import ChatCompletionMessageParam
 
-from weather_agent import weather_tools
+from .weather_tools import get_alerts, get_forecast, get_forecast_by_city
 
 logger = logging.getLogger(__name__)
 if not logger.hasHandlers():
@@ -37,13 +37,13 @@ class WeatherAgent:
     ) -> None:
         self._client = client or AsyncOpenAI()
         self._model = model or os.getenv(
-            "OPENAI_WEATHER_MODEL", os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+            "OPENAI_WEATHER_MODEL", os.getenv("OPENAI_MODEL", "gpt-5-mini")
         )
         self._session_history: dict[str, list[ChatCompletionMessageParam]] = {}
         self._tools: dict[str, ToolFn] = {
-            "get_alerts": weather_tools.get_alerts,
-            "get_forecast": weather_tools.get_forecast,
-            "get_forecast_by_city": weather_tools.get_forecast_by_city,
+            "get_alerts": get_alerts,
+            "get_forecast": get_forecast,
+            "get_forecast_by_city": get_forecast_by_city,
         }
         self._function_specs = [
             {

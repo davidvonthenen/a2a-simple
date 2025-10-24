@@ -7,7 +7,7 @@ from collections.abc import AsyncIterator
 
 import gradio as gr
 
-from routing_agent import RoutingAgent, initialize_routing_agent
+from .routing_agent import RoutingAgent, initialize_routing_agent
 
 SESSION_ID = "default_session"
 

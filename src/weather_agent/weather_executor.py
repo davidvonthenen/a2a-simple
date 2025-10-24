@@ -1,8 +1,6 @@
-"""A2A executor wrapper for the Airbnb agent."""
+"""A2A executor for the Weather agent."""
 
 from __future__ import annotations
-
-import logging
 
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events.event_queue import EventQueue
@@ -14,17 +12,15 @@ from a2a.types import (
 )
 from a2a.utils import new_agent_text_message, new_task, new_text_artifact
 
-from airbnb_agent import AirbnbAgent
-
-logger = logging.getLogger(__name__)
+from .weather_agent import WeatherAgent
 
 
-class AirbnbAgentExecutor(AgentExecutor):
-    """Executes the Airbnb agent for a2a requests."""
+class WeatherExecutor(AgentExecutor):
+    """Executes the WeatherAgent for incoming tasks."""
 
     def __init__(self) -> None:
         super().__init__()
-        self.agent = AirbnbAgent()
+        self.agent = WeatherAgent()
 
     async def execute(
         self, context: RequestContext, event_queue: EventQueue

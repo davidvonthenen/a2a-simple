@@ -12,7 +12,7 @@ from a2a.server.tasks import InMemoryTaskStore
 from a2a.types import AgentCapabilities, AgentCard, AgentSkill
 from dotenv import load_dotenv
 
-from weather_agent.weather_executor import WeatherExecutor
+from .weather_executor import WeatherExecutor
 
 load_dotenv()
 

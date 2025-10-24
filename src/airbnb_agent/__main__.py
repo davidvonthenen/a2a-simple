@@ -12,7 +12,8 @@ from a2a.server.tasks import InMemoryTaskStore
 from a2a.types import AgentCapabilities, AgentCard, AgentSkill
 from dotenv import load_dotenv
 
-from agent_executor import AirbnbAgentExecutor
+from .agent_executor import AirbnbAgentExecutor
+from .airbnb_agent import AirbnbAgent
 
 load_dotenv(override=True)
 
