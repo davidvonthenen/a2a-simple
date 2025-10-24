@@ -34,6 +34,10 @@ logger = logging.getLogger(__name__)
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO)
 
+# Remote card discovery may involve slow remote agents. Give the HTTP client a
+# generous timeout so initialization succeeds in those cases.
+DEFAULT_HTTP_TIMEOUT = httpx.Timeout(120.0, connect=30.0)
+
 
 class RoutingAgent:
     """Delegates user requests to remote agents using OpenAI for planning."""
@@ -63,7 +67,7 @@ class RoutingAgent:
     async def _async_init_components(
         self, remote_agent_addresses: list[str]
     ) -> None:
-        async with httpx.AsyncClient(timeout=30) as client:
+        async with httpx.AsyncClient(timeout=DEFAULT_HTTP_TIMEOUT) as client:
             for address in remote_agent_addresses:
                 card_resolver = A2ACardResolver(client, address)
                 try:
