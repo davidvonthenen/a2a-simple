@@ -11,7 +11,10 @@ from geopy.geocoders import Nominatim
 
 BASE_URL = "https://api.weather.gov"
 USER_AGENT = "weather-agent"
-REQUEST_TIMEOUT = 20.0
+# Weather.gov endpoints occasionally stall when the upstream service is busy.
+# Use a generous timeout so long-running requests can complete instead of
+# raising client-side timeout errors.
+REQUEST_TIMEOUT = 120.0
 GEOCODE_TIMEOUT = 10.0
 
 _http_client = httpx.AsyncClient(
